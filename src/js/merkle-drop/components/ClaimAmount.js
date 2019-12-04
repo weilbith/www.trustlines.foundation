@@ -11,14 +11,16 @@ function ClaimAmount({
   onClaim,
   reset,
   chainState,
+  addressEqualsAccount,
 }) {
   const handleClaim = useCallback(() => {
     onClaim(proof, originalAmount)
   }, [onClaim, proof, originalAmount])
 
   const canClaim =
-    chainState === CHAIN_STATE.CONNECTED ||
-    chainState === CHAIN_STATE.CHAIN_UNKNOWN
+    (chainState === CHAIN_STATE.CONNECTED ||
+      chainState === CHAIN_STATE.CHAIN_UNKNOWN) &&
+    addressEqualsAccount
 
   return (
     <div className="columns is-centered">
@@ -58,6 +60,14 @@ function ClaimAmount({
               We were unable to check the chain you are connected to, please
               make sure you are connected to the&nbsp;
               {process.env.REACT_APP_CHAIN_NAME} before proceeding.
+            </p>
+          )}
+          {!addressEqualsAccount && (
+            <p className="has-text-left has-text-grey">
+              You can only claim the tokens for an account you control.
+              Therefore the transaction sender must equal the address to claim
+              for. Please change the account of your Web3 enabled browser or
+              MetaMask plugin, in order to claim you tokens.
             </p>
           )}
         </div>

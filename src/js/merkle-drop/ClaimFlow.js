@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react"
+import React, { useCallback, useState, useEffect } from "react"
 import * as backend from "./api/backend"
 import { requestPermission } from "../common/web3"
 import * as web3 from "./api/web3"
@@ -15,6 +15,7 @@ import TermsAndConditionsModal from "./components/TermsAndConditionsModal"
 import WaitCard from "./components/WaitCard"
 import ClaimFailed from "./components/ClaimFailed"
 import { useChainState } from "./state/chainState"
+import { useAccountState } from "./state/accountState"
 import ColumnsWrapper from "./components/ColumnsWrapper"
 import ManualProofWrapper from "./components/ManualProofWrapper"
 
@@ -37,6 +38,8 @@ function ClaimFlow() {
   const [currentAmount, setCurrentAmount] = useState("")
   const [amount, setAmount] = useState("")
   const chainState = useChainState()
+  const account = useAccountState()
+  const [addressEqualsAccount, setAddressEqualsAccount] = useState(false)
   const [txHash, setTxHash] = useState("")
   const [confirmations, setConfirmations] = useState(0)
   const [errorMessage, setErrorMessage] = useState("")
@@ -144,6 +147,14 @@ function ClaimFlow() {
     setShowTermsAndConditionsModal(false)
   }
 
+  useEffect(() => {
+    if (!address || !account) {
+      setAddressEqualsAccount(false)
+    } else {
+      setAddressEqualsAccount(address.toLowerCase() === account.toLowerCase())
+    }
+  }, [address, account])
+
   const Headline = () => (
     <div className="has-text-left p-b-lg">
       <h1 className="title">Merkle Drop Token Claim</h1>
@@ -218,6 +229,7 @@ function ClaimFlow() {
               onClaim={openTermsAndConditionsModal}
               reset={reset}
               chainState={chainState}
+              addressEqualsAccount={addressEqualsAccount}
             />
             {showTermsAndConditionsModal && (
               <TermsAndConditionsModal

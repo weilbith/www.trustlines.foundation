@@ -58,3 +58,7 @@ export async function requestPermission() {
 export async function verifyChainId(chainId) {
   return (await web3.eth.getChainId()) === parseInt(chainId)
 }
+
+export async function getDefaultAccount() {
+  return (await web3.eth.getAccounts())[0]
+}
