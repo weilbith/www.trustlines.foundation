@@ -1,13 +1,7 @@
 import getWeb3 from "../../common/web3"
 import MerkleDropABI from "../../abi/merkle-drop.json"
 
-export async function claimTokens(
-  address,
-  value,
-  proof,
-  onSign,
-  onConfirmation
-) {
+export async function claimTokens(value, proof, onSign, onConfirmation) {
   const web3 = getWeb3()
   // TODO: Theoretically, web3 could be undefined here. Should not happen, but might. Handle?
   const contract = new web3.eth.Contract(
@@ -16,7 +10,7 @@ export async function claimTokens(
   )
   try {
     return await contract.methods
-      .withdrawFor(address, value, proof)
+      .withdraw(value, proof)
       .send({
         from: (await web3.eth.getAccounts())[0],
       })

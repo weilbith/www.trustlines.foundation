@@ -111,13 +111,7 @@ function ClaimFlow() {
           setInternalState(STATE.ERROR)
           return
         }
-        return web3.claimTokens(
-          address,
-          amount,
-          proof,
-          handleSign,
-          handleConfirmation
-        )
+        return web3.claimTokens(amount, proof, handleSign, handleConfirmation)
       })
       .catch(error => {
         console.error(error)
@@ -133,7 +127,7 @@ function ClaimFlow() {
           setInternalState(STATE.TRANSACTION_FAILED)
         }
       })
-  }, [address, amount, proof, handleSign, handleConfirmation])
+  }, [amount, proof, handleSign, handleConfirmation])
 
   const reset = useCallback(() => {
     setConfirmations(0)
