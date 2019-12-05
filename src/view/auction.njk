@@ -1,0 +1,185 @@
+{% set pageId = "auction" %}
+{% extends "layout/_main.njk" %}
+
+{% block headStyles %}
+  {{ super() }}
+  <link rel="stylesheet" href="/css/{{ env.npm_package_version | urlencode }}/auction.css">
+{% endblock %}
+
+{% block bodyScripts %}
+  {{ super() }}
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.min.js"></script>
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-annotation/0.5.7/chartjs-plugin-annotation.min.js"></script>
+  <script src="/js/{{ env.npm_package_version | urlencode }}/auction.js"></script>
+{% endblock %}
+
+{% block content %}
+  <section class="section">
+    <div class="container">
+      <div class="content">
+
+        <h1>Trustlines Validator Auction</h1>
+
+        <p class="content-large">The Trustlines validator auction is used to determine the first set of validators for the Trustlines Blockchain. The first set of validators will be valid for nine months. To participate in the auction, a whitelisted Ethereum address has to bid by sending ETH to the auction contract after it has started and before it has ended. The amount must be greater or equal to the current price.</p>
+        <p class="content-large">If you have been accepted as a validator candidate, please read the following information and instructions with great care.</p>
+
+        {% if env.SHOW_AUCTION === 'true' %}
+          {# Chart #}
+          <div id="loading-message"></div>
+          <div class="level chart-addons">
+            <div class="level-left">
+              <div class="level-item">
+                <div class="buttons has-addons">
+                  <span id="eth-button" class="is-rounded button is-primary is-selected">ETH</span>
+                  <span id="wei-button" class="is-rounded button is-outlined is-primary">WEI</span>
+                </div>
+              </div>
+            </div>
+            <div class="level-right">
+              <div class="level-item">
+                <span class="icon is-medium slot-price-color p-b-xs">
+                  <i class="fas fa-circle">
+                  </i>
+                </span>
+                Slot Price
+              </div>
+              <div class="level-item">
+                <span class="icon is-medium bid-price-color p-b-xs">
+                  <i class="fas fa-circle">
+                  </i>
+                </span>
+                Bid Price
+              </div>
+            </div>
+          </div>
+          <div class="chart-container">
+            <canvas id="bids">
+            </canvas>
+            <div class="chartjs-tooltip" id="tooltip"></div>
+          </div>
+          <div class="columns p-t-xl chart-addons">
+            <div class="column is-3">
+              <h3 class="subtitle is-3 has-text-weight-bold is-marginless has-text-primary" id="remaining-time">
+              </h3>
+              <p class="has-text-grey">Remaining Time</p>
+            </div>
+            <div class="column is-2">
+              <h3 class="subtitle is-3 has-text-weight-bold is-marginless has-text-primary" id="slots-free">
+              </h3>
+              <p class="has-text-grey">Free Slots</p>
+            </div>
+            <div class="column is-2">
+              <h3 class="subtitle is-3 has-text-weight-bold is-marginless has-text-primary" id="slots-max">
+              </h3>
+              <p class="has-text-grey">Max. Slots</p>
+            </div>
+            <div class="column is-2">
+              <h3 class="subtitle is-3 has-text-weight-bold is-marginless has-text-primary" id="slots-taken">
+              </h3>
+              <p class="has-text-grey">Taken Slots</p>
+            </div>
+            <div class="column is-2">
+              <h3 class="subtitle is-3 has-text-weight-bold is-marginless has-text-primary" id="slots-min">
+              </h3>
+              <p class="has-text-grey">Min. Slots</p>
+            </div>
+          </div>
+          <div class="columns chart-addons">
+            <div class="column is-7">
+              <div class="is-rounded button is-background-gradient-dark has-text-white" id="address-reveal-link">Reveal contract address</div>
+              <div id="address">
+                <h5 class="subtitle is-5 has-text-weight-bold is-marginless has-text-primary" >
+                  {{ env.AUCTION_ADDRESS }}
+                </h5>
+                <p class="has-text-danger m-b-none">Remember to increase the transaction gas.</p>
+              </div>
+              <div class="has-text-grey" id="address-description">Contract Address</div>
+            </div>
+            <div class="column is-5">
+              <h5 class="subtitle is-3 has-text-weight-bold is-marginless has-text-primary" id="current-price">
+              </h5>
+              <p class="has-text-grey" id="current-price-desc">Lowest Slot Price</p>
+            </div>
+          </div>
+        {% endif %}
+
+        {% include "auction/_description.njk" %}
+
+      </div>
+    </div>
+  </section>
+
+
+  {# Participate #}
+  <section class="hero background-gradient-light">
+    <div class="hero-body">
+      <div class="container">
+        <h1 class="title">
+          <a href="#collapsible-panel-1" data-action="collapse" class="has-text-white">
+            1. How to participate in the validator auction
+          </a>
+        </h1>
+      </div>
+    </div>
+  </section>
+  <div id="collapsible-panel-1" class="is-collapsible">
+    <div class="container">
+      {% include "auction/_participate.njk" %}
+    </div>
+  </div>
+
+
+  {# Withdraw #}
+  <section class="hero background-gradient-dark">
+    <div class="hero-body">
+      <div class="container">
+        <h1 class="title">
+          <a href="#collapsible-panel-2" data-action="collapse" class="has-text-white">
+            2. How to withdraw from the auction
+          </a>
+        </h1>
+      </div>
+    </div>
+  </section>
+  <div id="collapsible-panel-2" class="is-collapsible">
+    <div class="container">
+      {% include "auction/_withdraw.njk" %}
+    </div>
+  </div>
+
+
+  {# Modal Dialog #}
+  <div id="terms-and-conditions-modal" class="modal">
+    <div class="modal-background"></div>
+    <div class="modal-content">
+      <div class="modal-card">
+        <header class="modal-card-head">
+          <p class="modal-card-title has-text-weight-bold">Terms and Conditions for the Trustlines Validator Auction</p>
+        </header>
+        <section id="terms-and-conditions-modal-content" class="modal-card-body has-text-grey">
+
+                  {% include "auction/_terms-conditions.njk" %}
+
+        </section>
+        <footer class="modal-card-foot">
+          <div class="container has-text-centered">
+            <div class="columns is-centered">
+              <div class="column is-one-third">
+                <button id="terms-and-conditions-modal-button-reject" class="button is-rounded has-text-weight-bold is-outlined is-primary is-fullwidth">
+                  Reject
+                </button>
+              </div>
+              <div class="column is-one-third">
+                <button id="terms-and-conditions-modal-button-accept" class="button is-rounded has-text-weight-bold has-text-white is-background-gradient-dark is-fullwidth">
+                  Accept
+                </button>
+              </div>
+            </div>
+          </div>
+        </footer>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}

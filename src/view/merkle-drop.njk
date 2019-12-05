@@ -1,0 +1,69 @@
+{% set pageId = "merkle" %}
+{% extends "layout/_main.njk" %}
+
+{% block bodyScripts %}
+  {{ super() }}
+  <script src="/js/{{ env.npm_package_version | urlencode }}/merkle-drop.js"></script>
+{% endblock %}
+
+{% block content %}
+  <section class="section">
+    <div class="container">
+      <div class="content">
+
+        <h1>Trustlines Merkle Drop</h1>
+
+        <p>Transaction fees on the Trustlines Blockchain will be paid in Trustlines Coins (TLC). A Merkle drop on Ethereum will distribute Trustlines Network Tokens (TLN), which can be converted into TLC using a token bridge. The Merkle drop will:</p>
+
+        <p>&nbsp;</p>
+
+        <div class="columns">
+          <div class="column is-2 has-text-centered">
+            <img src="/img/icon-reward.svg">
+          </div>
+          <div class="column is-6">
+            Reward <strong>early contributors</strong>, e.g. validators, testers, developers and others.
+          </div>
+        </div>
+
+        <hr />
+
+        <div class="columns">
+          <div class="column is-2 has-text-centered">
+            <img src="/img/icon-target.svg">
+          </div>
+          <div class="column is-6">
+            Target <strong>potential stakeholders</strong> of the Trustlines Network, e.g. individuals/ projects aligned with the mission of Trustlines, who may turn into users of the Trustlines technology stack.
+          </div>
+        </div>
+
+        <hr />
+
+        <div class="columns">
+          <div class="column is-2 has-text-centered">
+            <img src="/img/icon-audience.svg">
+          </div>
+          <div class="column is-6">
+            Make TLC available to a <strong>wide audience</strong> consisting of addresses and individuals from within the crypto and community currency ecosystems.
+          </div>
+        </div>
+
+        <p>&nbsp;</p>
+
+        <p>The token won’t be pushed onto accounts, but will instead have to be claimed from the Merkle drop smart contract.</p>
+
+      </div>
+    </div>
+  </section>
+
+  {% if env.SHOW_MERKLE_DROP === 'true' %}
+    <section class="section content-wrapper">
+        <div id="root" />
+    </section>
+  {% endif %}
+
+  <div class="content">
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+  </div>
+{% endblock %}
