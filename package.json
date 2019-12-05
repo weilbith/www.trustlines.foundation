@@ -63,7 +63,7 @@
     "build-js": "yarn run clean-js && NODE_ENV=production webpack --config webpack.prod.js",
     "watch-js": "yarn run clean-js && NODE_ENV=development webpack --watch --config webpack.dev.js",
     "clean-js": "del -f ./dist/js/**/*",
-    "build-assets": "cpy ./src/images/* ./dist/img/ && cpy ./CNAME ./dist/ && cpy ./src/images/favicon.ico ./dist/",
+    "build-assets": "cpy ./src/images/* ./dist/img/ && cpy ./CNAME ./dist/ && cpy ./src/images/favicon.ico ./dist/ && cpy ./auction-summary.json ./dist/",
     "clean-assets": "del -f ./dist/img/**/* && del -f ./dist/CNAME",
     "format": "eslint ./src/**/*.js ./webpack.*.js --fix",
     "lint": "eslint ./src/**/*.js",

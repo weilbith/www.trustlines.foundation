@@ -240,7 +240,7 @@ function renderChart(bids, priceFunction, chartState) {
 
 function fetchAuctionDataAndRender(chartState, animationDuration = 800) {
   $.ajax({
-    url: `${process.env.AUCTION_API_URL}/auction-summary`,
+    url: `${process.env.AUCTION_API_URL}`,
     success: result => {
       if (result.state === "Not Deployed") {
         loadingMessage.show()
