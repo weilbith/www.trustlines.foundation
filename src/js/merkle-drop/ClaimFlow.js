@@ -1,6 +1,10 @@
 import React, { useCallback, useState, useEffect } from "react"
 import * as backend from "./api/backend"
-import { requestPermission, getDefaultAccount } from "../common/web3"
+import {
+  requestPermission,
+  getDefaultAccount,
+  verifyChainId,
+} from "../common/web3"
 import * as web3 from "./api/web3"
 import AddressInput from "./components/AddressInput"
 import ClaimAmount from "./components/ClaimAmount"
@@ -119,6 +123,12 @@ function ClaimFlow() {
             Therefore the transaction sender must equal the address to claim
             for. Please change the account of your Web3 enabled browser or
             MetaMask plugin, in order to claim you tokens.`
+          )
+          setInternalState(STATE.ERROR)
+        } else if (!(await verifyChainId(process.env.REACT_APP_CHAIN_ID))) {
+          setErrorMessage(
+            `You are connected to the wrong chain. For full functionality please
+            connect to the ${process.env.REACT_APP_CHAIN_NAME}.`
           )
           setInternalState(STATE.ERROR)
         } else {
