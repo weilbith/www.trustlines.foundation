@@ -1,6 +1,6 @@
 import React, { useCallback, useState, useEffect } from "react"
 import * as backend from "./api/backend"
-import { requestPermission } from "../common/web3"
+import { requestPermission, getDefaultAccount } from "../common/web3"
 import * as web3 from "./api/web3"
 import AddressInput from "./components/AddressInput"
 import ClaimAmount from "./components/ClaimAmount"
@@ -102,35 +102,49 @@ function ClaimFlow() {
       })
   }, [])
 
-  const claim = useCallback(() => {
-    closeTermsAndConditionsModal()
-    setInternalState(STATE.CLAIM_START)
-    requestPermission()
-      .then(permission => {
-        if (!permission) {
+  const claim = useCallback(async () => {
+    try {
+      closeTermsAndConditionsModal()
+      setInternalState(STATE.CLAIM_START)
+      if (await requestPermission()) {
+        // We can not use the account state variable, since this gets updated
+        // by an interval and must not be correct at this point in time.
+        const defaultAccount = await getDefaultAccount()
+
+        // Neither address nor defaultAccount can be undefined here and thereby
+        // must not be treated specially.
+        if (address.toLowerCase() !== defaultAccount.toLowerCase()) {
           setErrorMessage(
-            "In order to claim your tokens you have to give this site permission to your wallet."
+            `You can only claim the tokens for an account you control.
+            Therefore the transaction sender must equal the address to claim
+            for. Please change the account of your Web3 enabled browser or
+            MetaMask plugin, in order to claim you tokens.`
           )
           setInternalState(STATE.ERROR)
-          return
-        }
-        return web3.claimTokens(amount, proof, handleSign, handleConfirmation)
-      })
-      .catch(error => {
-        console.error(error)
-        if (error.code === web3.TRANSACTION_REVERTED_ERROR_CODE) {
-          setErrorMessage(
-            "Your transaction have been reverted. Did you try to claim your tokens twice?"
-          )
-          setInternalState(STATE.TRANSACTION_FAILED)
-        } else if (error.code === web3.USER_REJECTED_ERROR_CODE) {
-          setInternalState(STATE.SHOW_PROOF)
         } else {
-          setErrorMessage("Something went wrong with your transaction.")
-          setInternalState(STATE.TRANSACTION_FAILED)
+          return web3.claimTokens(amount, proof, handleSign, handleConfirmation)
         }
-      })
-  }, [amount, proof, handleSign, handleConfirmation])
+      } else {
+        setErrorMessage(
+          "In order to claim your tokens you have to give this site permission to your wallet."
+        )
+        setInternalState(STATE.ERROR)
+      }
+    } catch (error) {
+      console.error(error)
+      if (error.code === web3.TRANSACTION_REVERTED_ERROR_CODE) {
+        setErrorMessage(
+          "Your transaction have been reverted. Did you try to claim your tokens twice?"
+        )
+        setInternalState(STATE.TRANSACTION_FAILED)
+      } else if (error.code === web3.USER_REJECTED_ERROR_CODE) {
+        setInternalState(STATE.SHOW_PROOF)
+      } else {
+        setErrorMessage("Something went wrong with your transaction.")
+        setInternalState(STATE.TRANSACTION_FAILED)
+      }
+    }
+  }, [address, amount, proof, handleSign, handleConfirmation])
 
   const reset = useCallback(() => {
     setConfirmations(0)
@@ -149,7 +163,10 @@ function ClaimFlow() {
 
   useEffect(() => {
     if (!address || !account) {
-      setAddressEqualsAccount(false)
+      // We can't tell if this is equal. It could be that the account could
+      // not be determined, since the wallet is still locked. Therefore we
+      // depend on a later manual check.
+      setAddressEqualsAccount(true)
     } else {
       setAddressEqualsAccount(address.toLowerCase() === account.toLowerCase())
     }
