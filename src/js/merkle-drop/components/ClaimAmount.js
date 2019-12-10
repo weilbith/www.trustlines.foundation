@@ -27,11 +27,11 @@ function ClaimAmount({
           <div className="columns is-vcentered">
             <div className="column is-2">
               <span className="icon is-medium title">
-                <i className="fas fa-check-circle" />
+                <i className="fas fa-check-circle has-text-white" />
               </span>
             </div>
             <div className="column has-text-left">
-              <span className="title is-6 has-text-grey-lighter">
+              <span className="title is-6 has-text-white">
                 Yes, this address is eligible for a token claim.
               </span>
               <br />
