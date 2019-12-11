@@ -41,9 +41,16 @@ function ClaimFlow() {
   const [confirmations, setConfirmations] = useState(0)
   const [errorMessage, setErrorMessage] = useState("")
   const [
-    showTermsAndConditionsModal,
-    setShowTermsAndConditionsModal,
+    showTermsAndConditionsModalForClaim,
+    setShowTermsAndConditionsModalForClaim,
   ] = useState(false)
+  const [
+    showTermsAndConditionsModalForManual,
+    setShowTermsAndConditionsModalForManual,
+  ] = useState(false)
+  const [termsAndConditionsAccepted, setTermsAndConditionsAccepted] = useState(
+    false
+  )
 
   const handleSign = useCallback(hash => {
     setTxHash(hash)
@@ -99,8 +106,9 @@ function ClaimFlow() {
       })
   }, [])
 
-  const claim = useCallback(() => {
-    closeTermsAndConditionsModal()
+  const acceptTermsAndConditionsAndClaim = useCallback(() => {
+    setTermsAndConditionsAccepted(true)
+    closeTermsAndConditionsModalForClaim()
     setInternalState(STATE.CLAIM_START)
     requestPermission()
       .then(permission => {
@@ -142,12 +150,35 @@ function ClaimFlow() {
     setInternalState(STATE.INPUT)
   }, [])
 
-  const openTermsAndConditionsModal = () => {
-    setShowTermsAndConditionsModal(true)
+  const openTermsAndConditionsModalForClaim = useCallback(() => {
+    if (!termsAndConditionsAccepted) {
+      setShowTermsAndConditionsModalForClaim(true)
+    } else {
+      // This will re-accept the T&C and close the modal, what does not hurt
+      // here since it changes nothing.
+      acceptTermsAndConditionsAndClaim()
+    }
+  }, [termsAndConditionsAccepted, acceptTermsAndConditionsAndClaim])
+
+  const openTermsAndConditionsModalForManual = useCallback(() => {
+    if (!termsAndConditionsAccepted) {
+      setShowTermsAndConditionsModalForManual(true)
+    }
+    // No follow-up action since the manual approach relies only on the
+    // acceptance state.
+  }, [termsAndConditionsAccepted])
+
+  const closeTermsAndConditionsModalForClaim = () => {
+    setShowTermsAndConditionsModalForClaim(false)
   }
 
-  const closeTermsAndConditionsModal = () => {
-    setShowTermsAndConditionsModal(false)
+  const closeTermsAndConditionsModalForManual = () => {
+    setShowTermsAndConditionsModalForManual(false)
+  }
+
+  const acceptTermsAndConditionsAndShowProof = () => {
+    setTermsAndConditionsAccepted(true)
+    closeTermsAndConditionsModalForManual()
   }
 
   const Headline = () => (
@@ -221,18 +252,29 @@ function ClaimFlow() {
               proof={proof}
               currentAmount={currentAmount}
               originalAmount={amount}
-              onClaim={openTermsAndConditionsModal}
+              onClaim={openTermsAndConditionsModalForClaim}
               reset={reset}
               chainState={chainState}
             />
-            {showTermsAndConditionsModal && (
+            {showTermsAndConditionsModalForClaim && (
               <TermsAndConditionsModal
-                onReject={closeTermsAndConditionsModal}
-                onAccept={claim}
+                onReject={closeTermsAndConditionsModalForClaim}
+                onAccept={acceptTermsAndConditionsAndClaim}
               />
             )}
           </ColumnsWrapper>
-          <ManualProofWrapper proof={proof} amount={amount} />
+          <ManualProofWrapper
+            proof={proof}
+            showProof={termsAndConditionsAccepted}
+            amount={amount}
+            onOpen={openTermsAndConditionsModalForManual}
+          />
+          {showTermsAndConditionsModalForManual && (
+            <TermsAndConditionsModal
+              onReject={closeTermsAndConditionsModalForManual}
+              onAccept={acceptTermsAndConditionsAndShowProof}
+            />
+          )}
         </div>
       )
     case STATE.CLAIM_START:

@@ -2,15 +2,20 @@ import React, { useCallback, useState } from "react"
 
 import ManualProof from "./ManualProof"
 
-function ManualProofWrapper({ proof, amount }) {
-  const [showProof, setShowProof] = useState(false)
+function ManualProofWrapper({ proof, showProof, amount, onOpen }) {
+  const [toggled, setToggled] = useState(false)
 
   const handleToggle = useCallback(() => {
-    setShowProof(!showProof)
-  }, [showProof])
+    if (showProof) {
+      setToggled(!toggled)
+    } else {
+      setToggled(true)
+      onOpen()
+    }
+  }, [showProof, toggled, setToggled, onOpen])
 
   let showProofToggleClassNames = "fas is-clickable fa-2x "
-  if (showProof) {
+  if (toggled) {
     showProofToggleClassNames += "fa-angle-up"
   } else {
     showProofToggleClassNames += "fa-angle-down"
@@ -26,12 +31,15 @@ function ManualProofWrapper({ proof, amount }) {
           <h5
             className={
               "title is-5 " +
-              (showProof ? "has-text-weight-bold" : "has-text-weight-light")
+              (toggled && showProof
+                ? "has-text-weight-bold"
+                : "has-text-weight-light")
             }
           >
             <span
               className={
-                "icon is-medium " + (showProof ? "" : "has-opacity-zero")
+                "icon is-medium " +
+                (toggled && showProof ? "" : "has-opacity-zero")
               }
             >
               <i className="fas fa-arrow-right" />
@@ -49,7 +57,9 @@ function ManualProofWrapper({ proof, amount }) {
         >
           <i className={showProofToggleClassNames} />
         </button>
-        {showProof && <ManualProof proof={proof} originalAmount={amount} />}
+        {toggled && showProof && (
+          <ManualProof proof={proof} originalAmount={amount} />
+        )}
       </div>
     </div>
   )
