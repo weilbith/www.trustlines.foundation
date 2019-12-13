@@ -104,19 +104,20 @@ function TermsAndConditionsParagraph(props) {
 
       <p>
         <strong>Step1</strong> - confirming if an Ethereum address is an
-        Eligible Party Ethereum address: open the
+        Eligible Party Ethereum address: open the&nbsp;
         <a href="https://trustlines.foundation/merkle-drop.html">Merkle Drop</a>
-        and enter the Ethereum address that you want to check. If the Ethereum
-        address is an Eligible Party Ethereum address, the Merkle Proof will
-        automatically be generated. If the Ethereum address is not an Eligible
-        Party Ethereum address a corresponding notification will be presented.
+        &nbsp; and enter the Ethereum address that you want to check. If the
+        Ethereum address is an Eligible Party Ethereum address, the Merkle Proof
+        will automatically be generated. If the Ethereum address is not an
+        Eligible Party Ethereum address a corresponding notification will be
+        presented.
       </p>
 
       <p>
         <strong>Step 2</strong> - Submitting the Merkle Proof to the Merkle Drop
-        Smart Contract: you will be able to Claim TLN directly through the
+        Smart Contract: you will be able to Claim TLN directly through the&nbsp;
         <a href="https://trustlines.foundation/merkle-drop.html">Merkle Drop</a>
-        by using a web3 provider such as Metamask. If a Merkle Proof is
+        &nbsp; by using a web3 provider such as Metamask. If a Merkle Proof is
         successfully generated, the website will interact with the web3 provider
         and initiate the creation of a transaction to Claim the TLN. By clicking
         the respective claim button and approving the transaction, the Merkle
@@ -161,12 +162,12 @@ function TermsAndConditionsParagraph(props) {
       </p>
 
       <p>
-        The TLN is
+        The TLN is&nbsp;
         <a href="https://etherscan.io/token/0x679131F591B4f369acB8cd8c51E68596806c3916">
           deployed
         </a>
-        via a smart contract on the Ethereum Mainchain and has the following
-        token specifications:
+        &nbsp; via a smart contract on the Ethereum Mainchain and has the
+        following token specifications:
       </p>
 
       <table>
@@ -195,17 +196,18 @@ function TermsAndConditionsParagraph(props) {
       </table>
 
       <p>
-        A link to the relevant smart contract can be found
+        A link to the relevant smart contract can be found&nbsp;
         <a href="https://etherscan.io/token/0x679131F591B4f369acB8cd8c51E68596806c3916">
           here.
         </a>
+        &nbsp;
       </p>
 
       <h2>Trustlines Network Coin (TLC)</h2>
 
       <p>
         Since the Ethereum Mainchain and the Trustlines Blockchain have no
-        direct connection with each other, the Foundation has deployed the
+        direct connection with each other, the Foundation has deployed the&nbsp;
         <a href="https://etherscan.io/address/0x18bdc736b23ff7294bed9fa988a1443357c7b0ed">
           Trustlines Bridge
         </a>
@@ -222,13 +224,13 @@ function TermsAndConditionsParagraph(props) {
 
       <p>
         At the start of the Trustlines Blockchain a total of 80,000,000 TLC were
-        pre-mined and deposited into the
+        pre-mined and deposited into the&nbsp;
         <a href="https://explore.tlbc.trustlines.foundation/address/0x0000000000000000000000000000000000000401/transactions">
           Trustlines Bridge contract
         </a>
-        deployed on the Trustlines Blockchain. In addition to the pre-mined
-        coins 3 new TLC are created in the form of a block reward after each
-        block is created by a Validator.
+        &nbsp; deployed on the Trustlines Blockchain. In addition to the
+        pre-mined coins 3 new TLC are created in the form of a block reward
+        after each block is created by a Validator.
       </p>
 
       <h2>Use of the TLN and TLC</h2>
@@ -464,30 +466,30 @@ function TermsAndConditionsParagraph(props) {
       </p>
 
       <p>
-        <strong>Trustlines Bridge</strong> means a combination of one
+        <strong>Trustlines Bridge</strong> means a combination of one&nbsp;
         <a href="https://etherscan.io/address/0x18bdc736b23ff7294bed9fa988a1443357c7b0ed">
           smart contract
         </a>
-        deployed on the Ethereum Mainchain, one
+        &nbsp; deployed on the Ethereum Mainchain, one&nbsp;
         <a href="https://explore.tlbc.trustlines.foundation/address/0x0000000000000000000000000000000000000401/transactions">
           smart contract
         </a>
-        deployed on the Trustlines Blockchain and a monitoring tool that runs on
-        the Validator nodes. It allows for the mono directional conversion of
-        Trustlines Network Token from the Ethereum Mainchain into the Trustlines
-        Blockchain as native Trustlines Network Coins.
+        &nbsp; deployed on the Trustlines Blockchain and a monitoring tool that
+        runs on the Validator nodes. It allows for the mono directional
+        conversion of Trustlines Network Token from the Ethereum Mainchain into
+        the Trustlines Blockchain as native Trustlines Network Coins.
       </p>
 
       <p>
         <a href="https://github.com/trustlines-protocol/blockchain/blob/master/contracts/contracts/token/TrustlinesNetworkToken.sol">
           <strong>Trustlines Network Tokens (TLN)</strong>
         </a>
-        means tokens within the ERC20 TLN
+        &nbsp; means tokens within the ERC20 TLN&nbsp;
         <a href="https://etherscan.io/token/0x679131F591B4f369acB8cd8c51E68596806c3916">
           token contract
         </a>
-        on the Ethereum Mainchain, which can be converted to TLC by sending them
-        to the Trustlines Bridge.
+        &nbsp; on the Ethereum Mainchain, which can be converted to TLC by
+        sending them to the Trustlines Bridge.
       </p>
 
       <p>
@@ -851,10 +853,12 @@ function TermsAndConditionsParagraph(props) {
       <h2>Notices</h2>
 
       <p>
-        Notice to the Foundation shall be sent by e-mail to the Foundation at
+        Notice to the Foundation shall be sent by e-mail to the Foundation
+        at&nbsp;
         <a href="mailto: contact@trustlines.foundation">
           contact@trustlines.foundation.
         </a>
+        &nbsp;
       </p>
 
       <p>
