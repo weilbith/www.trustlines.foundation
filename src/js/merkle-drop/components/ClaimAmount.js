@@ -3,6 +3,7 @@ import React, { useCallback } from "react"
 import Button from "./Button"
 import RetryButton from "./RetryButton"
 import { CHAIN_STATE } from "../state/chainState"
+import { parseTokenAmount } from "../../common/math"
 
 function ClaimAmount({
   proof,
@@ -89,12 +90,6 @@ function ClaimAmount({
       </div>
     </div>
   )
-}
-
-function parseTokenAmount(amount) {
-  return (
-    parseInt(amount) / Math.pow(10, process.env.REACT_APP_TOKEN_DECIMALS)
-  ).toFixed(process.env.REACT_APP_SHOW_DECIMALS)
 }
 
 export default ClaimAmount

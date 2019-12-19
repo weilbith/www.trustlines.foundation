@@ -1,14 +1,17 @@
 import React from "react"
 
 import * as blockexplorer from "../../common/blockexplorer"
+import { parseTokenAmount } from "../../common/math"
 
-function ClaimSuccess({ confirmations, txHash }) {
+function ClaimSuccess({ confirmations, txHash, amount }) {
   const confirmationsString =
     confirmations <= 20 ? confirmations.toString() : "> 20"
 
   return (
     <div className="box has-text-centered is-background-gradient-light">
       <h1 className="subtitle is-2 has-text-weight-bold">
+        {parseTokenAmount(amount)}
+        <br />
         Tokens successfully claimed!
         <br />
         <span className="icon is-large">

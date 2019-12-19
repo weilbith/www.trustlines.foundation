@@ -328,7 +328,11 @@ function ClaimFlow() {
       return (
         <div className="columns is-centered">
           <div className="column is-three-fifths">
-            <ClaimSuccess txHash={txHash} confirmations={confirmations} />
+            <ClaimSuccess
+              txHash={txHash}
+              confirmations={confirmations}
+              amount={currentClaimAmount}
+            />
             <div className="columns is-centered">
               <div className="column is-three-fifths">
                 <RetryButton reset={reset} />
