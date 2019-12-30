@@ -10,7 +10,7 @@ function ClaimSuccess({ confirmations, txHash, amount }) {
   return (
     <div className="box has-text-centered is-background-gradient-light">
       <h1 className="subtitle is-2 has-text-weight-bold">
-        {parseTokenAmount(amount)}
+        {amount && parseTokenAmount(amount)}
         <br />
         Tokens successfully claimed!
         <br />

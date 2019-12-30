@@ -42,6 +42,7 @@ function ClaimFlow() {
   const [proof, setProof] = useState([])
   const [currentClaimAmount, setCurrentClaimAmount] = useState("")
   const [originalClaimAmount, setOriginalClaimAmount] = useState("")
+  const [claimedAmount, setClaimedAmount] = useState("")
   const web3Account = useAccount()
   const chainState = useChainState()
   const [txHash, setTxHash] = useState("")
@@ -67,21 +68,35 @@ function ClaimFlow() {
     setInternalState(STATE.CLAIM_WAIT)
   }, [])
 
-  const handleConfirmation = useCallback((confirmationNumber, receipt) => {
-    // Workaround to access current hash
-    setTxHash(currentHash => {
-      // Only process incoming confirmations if it is about current transaction
-      if (receipt.transactionHash === currentHash) {
-        if (
-          confirmationNumber === parseInt(process.env.REACT_APP_CONFIRMATIONS)
-        ) {
-          setInternalState(STATE.CLAIM_END)
+  const setClaimedAmountByReceipt = useCallback(
+    async receipt => {
+      const claimedTokenAmountByReceipt = await web3.getClaimedTokenAmountByReceipt(
+        receipt
+      )
+      setClaimedAmount(claimedTokenAmountByReceipt)
+    },
+    [setClaimedAmount]
+  )
+
+  const handleConfirmation = useCallback(
+    (confirmationNumber, receipt) => {
+      // Workaround to access current hash
+      setTxHash(currentHash => {
+        // Only process incoming confirmations if it is about current transaction
+        if (receipt.transactionHash === currentHash) {
+          if (
+            confirmationNumber === parseInt(process.env.REACT_APP_CONFIRMATIONS)
+          ) {
+            setInternalState(STATE.CLAIM_END)
+            setClaimedAmountByReceipt(receipt)
+          }
+          setConfirmations(confirmationNumber)
         }
-        setConfirmations(confirmationNumber)
-      }
-      return currentHash
-    })
-  }, [])
+        return currentHash
+      })
+    },
+    [setClaimedAmountByReceipt]
+  )
 
   const submit = useCallback(address => {
     setInternalState(STATE.LOADING)
@@ -331,7 +346,7 @@ function ClaimFlow() {
             <ClaimSuccess
               txHash={txHash}
               confirmations={confirmations}
-              amount={currentClaimAmount}
+              amount={claimedAmount}
             />
             <div className="columns is-centered">
               <div className="column is-three-fifths">
