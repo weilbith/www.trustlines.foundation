@@ -1,4 +1,5 @@
 import React, { useState, useCallback } from "react"
+import Warning from "./Warning.js"
 import { isAddress } from "ethereum-address"
 import { CHAIN_STATE } from "../state/chainState"
 
@@ -34,22 +35,10 @@ function AddressInput(props) {
     inputClasses += " is-danger"
   }
 
-  const NoDappWarning = () =>
-    chainState === CHAIN_STATE.DISCONNECTED && (
-      <div className="box has-text-justified">
-        Some functionalities are missing as no Web3 enabled browser was
-        detected. Please install the Metamask plugin or browse this site with a
-        Web3 enabled browser for full functionality.
-      </div>
-    )
+  const noDappWarningMessage =
+    "Some functionalities are missing as no Web3 enabled browser was detected. Please install the Metamask plugin or browse this site with a Web3 enabled browser for full functionality."
 
-  const WrongChainWarning = () =>
-    chainState === CHAIN_STATE.WRONG_CHAIN && (
-      <div className="box has-text-justified">
-        You are connected to the wrong chain. For full functionality please
-        connect to the {process.env.REACT_APP_CHAIN_NAME}.
-      </div>
-    )
+  const wrongChainWarningMessage = `You are connected to the wrong chain. For full functionality please connect to the ${process.env.REACT_APP_CHAIN_NAME}.`
 
   return (
     <div>
@@ -82,10 +71,14 @@ function AddressInput(props) {
             <div className="has-text-centered help">&nbsp;</div>
           )}
         </div>
-        <NoDappWarning />
-        <WrongChainWarning />
+        {chainState === CHAIN_STATE.DISCONNECTED && (
+          <Warning message={noDappWarningMessage} />
+        )}
+        {chainState === CHAIN_STATE.WRONG_CHAIN && (
+          <Warning message={wrongChainWarningMessage} />
+        )}
         <div className="columns is-centered">
-          <div className="column is-four-fifths">
+          <div className="column is-three-fifths">
             <div className="control has-text-centered">
               <input
                 className="button is-rounded has-text-weight-bold has-text-white is-background-gradient-dark is-fullwidth"
