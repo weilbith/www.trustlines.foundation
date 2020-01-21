@@ -2,7 +2,7 @@ import React from "react"
 
 function WaitCard({ title, children }) {
   return (
-    <div className="box has-text-centered is-background-gradient-light">
+    <div className="box has-text-centered">
       <h1 className="subtitle is-2 has-text-weight-bold">{title}</h1>
       <div className="spinner-wrapper">
         <div className="spinner" />
