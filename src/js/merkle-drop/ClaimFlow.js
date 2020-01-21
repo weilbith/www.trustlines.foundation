@@ -22,6 +22,7 @@ import { useChainState } from "./state/chainState"
 import ColumnsWrapper from "./components/ColumnsWrapper"
 import ManualProofWrapper from "./components/ManualProofWrapper"
 import { useAccount } from "./state/account"
+import Warning from "./components/Warning"
 
 const STATE = {
   INPUT: "input",
@@ -256,14 +257,15 @@ function ClaimFlow() {
         <div>
           <Headline />
           <ColumnsWrapper headline={"Check address eligibility"}>
-            <AddressDisplay address={claimAddress} />
-            <div className="box has-text-centered">
-              <h6 className="subtitle is-6 has-text-danger has-text-weight-semibold">
-                <span className="icon is-medium has-text-danger">
-                  <i className="fas fa-lg fa-exclamation-triangle" />
-                </span>
-                &nbsp;Sorry, this address is not eligible to claim any tokens.
-              </h6>
+            <div className="columns is-centered">
+              <div className="column">
+                <AddressDisplay address={claimAddress} />
+              </div>
+            </div>
+            <div className="columns is-centered">
+              <div className="column">
+                <Warning message="Sorry, this address is not eligible to claim any tokens." />
+              </div>
             </div>
             <div className="columns is-centered">
               <div className="column is-three-fifths">
@@ -278,24 +280,28 @@ function ClaimFlow() {
         <div>
           <Headline />
           <ColumnsWrapper headline={"Check address eligibility"}>
-            <AddressDisplay address={claimAddress} />
-          </ColumnsWrapper>
-          <ColumnsWrapper>
-            <ClaimAmount
-              proof={proof}
-              currentAmount={currentClaimAmount}
-              originalAmount={originalClaimAmount}
-              onClaim={handleClaimRequest}
-              reset={reset}
-              chainState={chainState}
-              wrongAccount={wrongAccountSelected}
-            />
-            {showTermsAndConditionsModal && (
-              <TermsAndConditionsModal
-                onReject={handleDeclineTermsAndCondition}
-                onAccept={onAcceptTermsAndCondition}
+            <div className="columns is-centered">
+              <div className="column">
+                <AddressDisplay address={claimAddress} />
+              </div>
+            </div>
+            <div className="columns is-centered">
+              <ClaimAmount
+                proof={proof}
+                currentAmount={currentClaimAmount}
+                originalAmount={originalClaimAmount}
+                onClaim={handleClaimRequest}
+                reset={reset}
+                chainState={chainState}
+                wrongAccount={wrongAccountSelected}
               />
-            )}
+              {showTermsAndConditionsModal && (
+                <TermsAndConditionsModal
+                  onReject={handleDeclineTermsAndCondition}
+                  onAccept={onAcceptTermsAndCondition}
+                />
+              )}
+            </div>
           </ColumnsWrapper>
           <ManualProofWrapper
             proof={proof}
