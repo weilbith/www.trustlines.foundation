@@ -29,6 +29,8 @@
             <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
             <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
             <script src="/js/{{ env.npm_package_version | urlencode }}/main.js"></script>
+            <script src="js/{{ env.npm_package_version | urlencode }}/common.js"></script>
+            <script src="js/{{ env.npm_package_version | urlencode }}/newsletter.js"></script>
             {% if env.NODE_ENV == 'development' %}
               <script src="//localhost:35729/livereload.js?snipver=1"></script>
             {% endif %}

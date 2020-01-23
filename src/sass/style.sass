@@ -11,6 +11,7 @@ $tl-blue-very-light: #B9E6FA
 $tl-blue-light: #73BEE1
 $tl-blue-dark: #195A87
 $tl-blue-very-dark: #0F3255
+$tl-blue-super-dark: #161A2A
 $tl-grey-light: #828282
 $tl-grey: #0F3255
 $tl-grey-dark: #323232
@@ -27,6 +28,9 @@ $primary: $tl-blue
 $info: $tl-blue-light
 $family-primary: "Nunito Sans"
 $success: $tl-blue
+$light: $tl-blue-very-light
+$dark: $tl-blue-very-dark
+$black: $tl-blue-super-dark
 $family-secondary: "Gothic A1"
 $footer-background-color: $tl-blue-very-dark
 
@@ -49,7 +53,7 @@ $divider-color: $tl-blue-light
 $divider-thickness: 0.1rem
 $divider-background-color: $tl-blue-light
 $box-color: #004A7D
-$box-background-color: #FFFFFF
+$box-background-color: $tl-blue-light
 $box-radius: 10px
 $box-shadow: 0
 $title-color: $tl-blue
@@ -111,6 +115,7 @@ body
 @import include/navigation
 @import include/footer
 @import include/spinner
+@import include/newsletter
 
 .mdt object
   height: 24.5em
@@ -118,3 +123,19 @@ body
 .box
   .title, .subtitle
     color: #004A7D
+
+.hero-foot
+  // Overwrite Bulma default to make it align with the bottom edge.
+  padding-bottom: 0 !important
+
+.has-placeholder-light::placeholder
+  color: $light
+  opacity: 1
+
+.has-shadow-dark
+  border: none
+  box-shadow: 0 0 0 1px $black !important
+
+.has-shadow-primary
+  border: none
+  box-shadow: 0 0 0 1px $primary !important

@@ -28,6 +28,7 @@ module.exports = {
     main: path.resolve(__dirname, "src/js/main/index.js"),
     "merkle-drop": path.resolve(__dirname, "src/js/merkle-drop/index.js"),
     auction: path.resolve(__dirname, "src/js/auction/index.js"),
+    newsletter: path.resolve(__dirname, "src/js/newsletter/index.js"),
   },
 
   output: {
