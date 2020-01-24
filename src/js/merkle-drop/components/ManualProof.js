@@ -30,7 +30,7 @@ function ManualProof({ proof, originalAmount }) {
 
   return (
     <div className="columns is-centered">
-      <div className="column is-four-fifths">
+      <div className="column">
         <div className="content">
           <div className="field">
             <label className="label has-text-weight-light has-text-grey has-text-left">

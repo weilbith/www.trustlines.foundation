@@ -26,6 +26,7 @@ $grey: $tl-grey
 $primary: $tl-blue
 $info: $tl-blue-light
 $family-primary: "Nunito Sans"
+$success: $tl-blue
 $family-secondary: "Gothic A1"
 $footer-background-color: $tl-blue-very-dark
 
@@ -47,7 +48,10 @@ $input-background-color: transparent
 $divider-color: $tl-blue-light
 $divider-thickness: 0.1rem
 $divider-background-color: $tl-blue-light
-$box-background-color: $tl-blue-light
+$box-color: #004A7D
+$box-background-color: #FFFFFF
+$box-radius: 10px
+$box-shadow: 0
 $title-color: $tl-blue
 $subtitle-color: $tl-blue
 $modal-card-head-background-color: $tl-blue-white
@@ -67,9 +71,6 @@ $modal-card-title-color: $tl-blue-dark
 
 .is-background-gradient-light
   background-image: $tl-background-gradient-light
-
-.is-background-white
-  background-color: $tl-blue-white !important
 
 .borderless-button
   border: none
@@ -113,3 +114,7 @@ body
 
 .mdt object
   height: 24.5em
+
+.box
+  .title, .subtitle
+    color: #004A7D
