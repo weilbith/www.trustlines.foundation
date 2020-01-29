@@ -35,23 +35,46 @@ export async function claimTokens(
 }
 
 export async function getClaimedTokenAmountByReceipt(receipt) {
+  const withdrawEventsInBlock = await getWithdrawEventsInBlock(
+    receipt.blockNumber
+  )
+  const withdrawEventsByTransaction = filterEventsByTransaction(
+    withdrawEventsInBlock,
+    receipt.transactionHash
+  )
+  throwIfNoSingleEvent(withdrawEventsByTransaction)
+  return parseWithdrawEventTokenAmount(withdrawEventsByTransaction[0])
+}
+
+async function getWithdrawEventsInBlock(blockNumber) {
   const merkleDropContract = getMerkleDropContract()
   const eventFilter = {
-    fromBlock: receipt.blockNumber,
-    transactionHash: receipt.transactionHash,
+    fromBlock: blockNumber,
+    toBlock: blockNumber,
   }
-  const withdrawEvents = await merkleDropContract.getPastEvents(
-    "Withdraw",
-    eventFilter
-  )
 
-  if (withdrawEvents.length !== 1) {
+  return await merkleDropContract.getPastEvents("Withdraw", eventFilter)
+}
+
+function filterEventsByTransaction(events, transactionHash) {
+  return events.filter(e => e.transactionHash === transactionHash)
+}
+
+function throwIfNoSingleEvent(events) {
+  if (events.length !== 1) {
     throw new ParseWithdrawEventError(
-      "Could not find withdraw event for given receipt."
+      "Could not find a single withdraw event for given receipt."
     )
-  } else {
-    return parseWithdrawEventTokenAmount(withdrawEvents[0])
   }
+}
+
+function parseWithdrawEventTokenAmount(withdrawEvent) {
+  console.log(withdrawEvent)
+  window._myEvent = withdrawEvent
+  // This event argument has the type BigNumber.
+  // We convert it to a String for an unified handling of amount values
+  // (like by the backend) to enable further processing.
+  return withdrawEvent.returnValues.value.toString()
 }
 
 function getMerkleDropContract() {
@@ -62,13 +85,6 @@ function getMerkleDropContract() {
     process.env.REACT_APP_MERKLE_DROP_ADDRESS
   )
   return contract
-}
-
-function parseWithdrawEventTokenAmount(withdrawEvent) {
-  // This event argument has the type BigNumber.
-  // We convert it to a String for an unified handling of amount values
-  // (like by the backend) to enable further processing.
-  return withdrawEvent.returnValues.value.toString()
 }
 
 export const USER_REJECTED_ERROR_CODE = "USER_REJECTED_ERROR"
