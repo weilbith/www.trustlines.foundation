@@ -69,7 +69,6 @@ function throwIfNoSingleEvent(events) {
 }
 
 function parseWithdrawEventTokenAmount(withdrawEvent) {
-  console.log(withdrawEvent)
   window._myEvent = withdrawEvent
   // This event argument has the type BigNumber.
   // We convert it to a String for an unified handling of amount values
