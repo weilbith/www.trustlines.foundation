@@ -12,7 +12,7 @@ export default function ConditionsCheckbox(props) {
         By checking this box you acknowledge that your information will be
         transferred to Mailchimp for processing and agree to our&nbsp;
         <a href="/legal-imprint-privacy-policy.html" target="_blank">
-          pricacy policy
+          privacy policy
         </a>
         .
       </label>
